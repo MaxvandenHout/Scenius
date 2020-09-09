@@ -26,8 +26,6 @@ namespace OpdrachtScenius.Queue
 
         private IModel GetQueueChannel()
         {
-            // It is inefficient to create new connection and channel for every api request.
-            // TODO: Channel and connection need to be properly closed after X seconds idle.
             if (queueConnection == null)
             {
                 queueConnection = (new ConnectionFactory() { HostName = "localhost" }).CreateConnection();
@@ -41,7 +39,6 @@ namespace OpdrachtScenius.Queue
 
         public void QueueMessage(Message message)
         {
-            Console.WriteLine(message.Text);
             GetQueueChannel().BasicPublish(
                 "",
                 QueueName,

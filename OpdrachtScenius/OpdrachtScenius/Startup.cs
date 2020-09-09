@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using OpdrachtScenius.Queue;
 using OpdrachtScenius.Websocket;
 
@@ -26,6 +20,7 @@ namespace OpdrachtScenius
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
             services.AddSingleton<IQueueHandler, QueueHandler>();
             services.AddSingleton<IWebsocketHandler, WebsocketHandler>();
@@ -38,11 +33,13 @@ namespace OpdrachtScenius
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseOptions();
             app.UseRouting();
             app.UseWebSockets();
             app.UseAuthorization();
-
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:4200"));
+  
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

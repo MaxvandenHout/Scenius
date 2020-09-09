@@ -16,13 +16,6 @@ namespace OpdrachtScenius.Controllers
             WebsocketHandler = websocketHandler;
         }
 
-
-        [HttpGet("test")]
-        public string Test()
-        {
-            return "tested";
-        }
-
         [HttpGet]
         public async Task Get()
         {
@@ -32,7 +25,6 @@ namespace OpdrachtScenius.Controllers
             if (isSocketRequest)
             {
                 WebSocket websocket = await context.WebSockets.AcceptWebSocketAsync();
-
                 WebsocketHandler.Handle(Guid.NewGuid(), websocket);
             }
             else

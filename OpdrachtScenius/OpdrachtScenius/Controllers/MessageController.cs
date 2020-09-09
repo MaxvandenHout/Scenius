@@ -5,7 +5,7 @@ namespace OpdrachtScenius.Controllers
 {
     [ApiController]
     [Route("api")]
-    public class MessageController : ControllerBase
+     public class MessageController : ControllerBase
     {
         private readonly IQueueHandler queueHandler;
         public MessageController(IQueueHandler queueHandler)
@@ -17,7 +17,6 @@ namespace OpdrachtScenius.Controllers
         [HttpPost("message")]
         public void SendMessage(Models.Message message)
         {
-            System.Console.WriteLine(message.Text);
             this.queueHandler.QueueMessage(message);
         }    
 
